@@ -1,0 +1,8 @@
+{
+  "name": "gptproji",
+  "version": "1.0.0",
+  "main": "api/generate.js",
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
