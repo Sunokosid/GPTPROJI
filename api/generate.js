@@ -6,6 +6,13 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // penting!
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end(); // CORS preflight
+  }
+
   const { topic } = req.body;
 
   if (!topic) {
