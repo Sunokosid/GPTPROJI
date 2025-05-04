@@ -8,17 +8,20 @@ const openai = new OpenAIApi(configuration);
 module.exports = async (req, res) => {
   const { topic } = req.body;
 
+  if (!topic) {
+    return res.status(400).json({ error: "Topik tidak boleh kosong." });
+  }
+
   try {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [
-        { role: "user", content: `Tulis artikel 500 kata tentang: ${topic}` }
-      ],
+      messages: [{ role: "user", content: `Tulis artikel 500 kata tentang: ${topic}` }]
     });
 
     const article = completion.data.choices[0].message.content;
     res.status(200).json({ article });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("OpenAI error:", error);
+    res.status(500).json({ error: error.message || "Gagal memanggil ChatGPT." });
   }
 };
